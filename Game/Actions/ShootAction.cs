@@ -1,13 +1,11 @@
 namespace HockeySim.Game.Actions;
 
-public class ShootAction : IAction
+public class ShootAction : Action
 {
-    public int Cost => 4;
-    public bool IsCounterAction => false;
-
-    public string Description => "Try to shoot a goal (+1 for shooting)";
-
-    public bool Play(GameManager gameManager)
+    public override int Cost => 4;
+    public override bool CanBeCountered => true;
+    public override string Description => "Try to shoot a goal (+1 for shooting)";
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

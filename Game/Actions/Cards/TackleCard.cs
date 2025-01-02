@@ -1,14 +1,12 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class TackleCard : ICard
+public class TackleCard : Action, ICard
 {
-    public int Cost => 3;
+    public override int Cost => 3;
+    public override bool CanBeCountered => false;
+    public override string Description => "Tackes a dribbling player";
 
-    public bool IsCounterAction => true;
-
-    public string Description => "Tackes a dribbling player";
-
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

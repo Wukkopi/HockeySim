@@ -51,7 +51,7 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
 
                 var card = Hand[index];
                 if (tokens[0] == "play")
-                    allowCounter = PlayCard(card, manager);
+                    allowCounter = PlayAction(card, manager);
                 else if (tokens[0] == "discard")
                     AssignAsEnergy(card);
                 continue;
@@ -60,12 +60,12 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
             // always available actions
             allowCounter = tokens[0] switch
             {
-                "d" => actions.Dribble.Play(manager),
-                "p" => actions.Pass.Play(manager),
-                "f" => actions.Forecheck.Play(manager),
-                "s" => actions.Shoot.Play(manager),
-                "e" => actions.EndTurn.Play(manager),
-                "n" => actions.Defend.Play(manager),
+                "d" => PlayAction(actions.Dribble, manager),
+                "p" => PlayAction(actions.Pass, manager),
+                "f" => PlayAction(actions.Forecheck, manager),
+                "s" => PlayAction(actions.Shoot, manager),
+                "e" => PlayAction(actions.EndTurn, manager),
+                "n" => PlayAction(actions.Defend, manager),
             };
         }
     }

@@ -1,14 +1,14 @@
 namespace HockeySim.Game.Actions;
 
-public class EndTurnAction : IAction
+public class EndTurnAction : Action
 {
-    public int Cost => 0;
+    public override int Cost => 0;
 
-    public string Description => "End turn (draws to 5)";
+    public override string Description => "End turn (draws to 5)";
 
-    public bool IsCounterAction => false;
+    public override bool CanBeCountered => false;
 
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

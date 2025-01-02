@@ -1,14 +1,14 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class BlockCard : ICard
+public class BlockCard : Action, ICard
 {
-    public int Cost => 4;
+    private const int power = 2;
+    
+    public override int Cost => 4;
+    public override bool CanBeCountered => false;
+    public override string Description => $"Goalie blocks the shot (+{power} for goal tending)";
 
-    public bool IsCounterAction => true;
-
-    public string Description => "Goalie blocks the shot (+2 for goal tending)";
-
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

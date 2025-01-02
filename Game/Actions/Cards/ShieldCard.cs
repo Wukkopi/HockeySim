@@ -1,14 +1,14 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class ShieldCard : ICard
+public class ShieldCard : Action, ICard
 {
-    public int Cost => 2;
+    private const int power = 1;
 
-    public bool IsCounterAction => true;
+    public override int Cost => 2;
+    public override bool CanBeCountered => false;
+    public override string Description => $"Goalie blocks the shot (+{power} for goal tending)";
 
-    public string Description => "Goalie blocks the shot (+1 for goal tending)";
-
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

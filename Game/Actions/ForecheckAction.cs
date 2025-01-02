@@ -1,13 +1,13 @@
 namespace HockeySim.Game.Actions;
 
-public class ForecheckAction : IAction
+public class ForecheckAction : Action
 {
-    public int Cost => 2;
-    public bool IsCounterAction => false;
+    public override int Cost => 2;
+    public override bool CanBeCountered => false;
 
-    public string Description => "Takes the possession of the puck";
+    public override string Description => "Takes the possession of the puck";
 
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

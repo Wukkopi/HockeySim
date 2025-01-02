@@ -1,14 +1,16 @@
 namespace HockeySim.Game.Actions;
 
-public class DefendAction : IAction
+public class DefendAction : Action
 {
-    public int Cost => 2;
+    private const int power = 1;
 
-    public string Description => "Defend the goal (+1 for defense)";
+    public override int Cost => 2;
 
-    public bool IsCounterAction => true;
+    public override string Description => $"Defend the goal (+{power} for defense)";
 
-    public bool Play(GameManager gameManager)
+    public override bool CanBeCountered => false;
+
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

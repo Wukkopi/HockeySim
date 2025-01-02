@@ -1,14 +1,16 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class BigPenaltyCard : ICard
+public class BigPenaltyCard : Action, ICard
 {
-    public int Cost => 5;
-
-    public string Description => "5 + 2 min penalty for opponent (-2 energy)";
-    public bool IsCounterAction => false;
-
-    public bool Play(GameManager gameManager)
+    private const int energyAmount = 2;
+ 
+    public override int Cost => 5;
+    public override string Description => $"5 + 2 min penalty for opponent (-{energyAmount} energy)";
+    public override bool CanBeCountered => false;
+    public override bool TryPlay(GameManager gameManager) 
     {
-        throw new NotImplementedException();
+        var opponent = gameManager.GetOpponent();
+        opponent.ConsumeEnergy(energyAmount);
+        return true;
     }
 }

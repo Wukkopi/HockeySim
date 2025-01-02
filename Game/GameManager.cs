@@ -24,6 +24,14 @@ public class GameManager
         PrepareGame();
     }
 
+    public IPlayer GetOpponent()
+    {
+        return InTurn.ID switch {
+            "red" => Blue,
+            "blue" => Red,
+        };
+    }
+
     public void PrepareGame()
     {
         for (var i = 0; i < Settings.InitialEnergy; i++)

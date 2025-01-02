@@ -1,13 +1,15 @@
 namespace HockeySim.Game.Actions;
 
-public class PassAction : IAction
+public class PassAction : Action
 {
-    public int Cost => 3;
-    public bool IsCounterAction => false;
+    private const int power = 1;
 
-    public string Description => "Passes the puck forwards by one area (+1 boost for goal making)";
+    public override int Cost => 3;
+    public override bool CanBeCountered => true;
 
-    public bool Play(GameManager gameManager)
+    public override string Description => $"Passes the puck forwards by one area (+{power} boost for goal making)";
+
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

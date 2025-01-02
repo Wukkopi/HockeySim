@@ -1,15 +1,14 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class AudienceCard : ICard
+public class AudienceCard : Action, ICard
 {
-    public int Cost => 0;
-
-    public string Description => "Audience cheers (+2 energy for both teams)";
-
-    public bool IsCounterAction => false;
-
-    public bool Play(GameManager gameManager)
+    private const int energyAmount = 2;
+    
+    public override int Cost => 0;
+    public override string Description => $"Audience cheers (+{energyAmount} energy for both teams)";
+    public override bool CanBeCountered => false;
+    public override bool TryPlay(GameManager gameManager)
     {
-        throw new NotImplementedException();
+        return Helper.DealEnergy(gameManager, energyAmount);
     }
 }

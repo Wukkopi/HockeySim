@@ -4,8 +4,10 @@ namespace HockeySim.Game;
 
 public class DeckManager
 {
-    private Stack<ICard> drawPile = new Stack<ICard>(Setup.BuildDeck());
+    private Stack<ICard> drawPile = new Stack<ICard>(Helper.BuildDeck());
     private List<ICard> discardPile = new();
+
+    public int CardsInDrawPile => drawPile.Count;
 
     public void Shuffle()
     {

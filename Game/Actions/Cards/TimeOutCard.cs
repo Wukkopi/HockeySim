@@ -1,13 +1,12 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class TimeOutCard : ICard
+public class TimeOutCard : Action, ICard
 {
-    public int Cost => 4;
-    public bool IsCounterAction => false;
+    public override int Cost => 4;
+    public override bool CanBeCountered => false;
+    public override string Description => "Coach calls for timeout (draws 2 cards)";
 
-    public string Description => "Coach calls for timeout (draws 2 cards)";
-
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

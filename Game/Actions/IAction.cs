@@ -1,9 +1,12 @@
+using HockeySim.Game.Player;
+
 namespace HockeySim.Game.Actions;
 
 public interface IAction
 {
     int Cost { get; }
     string Description { get; }
-    bool IsCounterAction { get; }
-    bool Play(GameManager gameManager);
+    bool CanBeCountered { get; }
+    bool CanAfford(IPlayer player);
+    bool TryPlay(GameManager gameManager);
 }

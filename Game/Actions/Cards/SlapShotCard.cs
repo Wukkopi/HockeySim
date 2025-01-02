@@ -1,14 +1,14 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class SlapShotCard : ICard
+public class SlapShotCard : Action, ICard
 {
-    public int Cost => 5;
-    
-    public bool IsCounterAction => false;
+    private const int power = 2;
 
-    public string Description => "Hard slap shot (+2 for goal making)";
+    public override int Cost => 5;
+    public override bool CanBeCountered => true;
+    public override string Description => $"Hard slap shot (+{power} for goal making)";
 
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

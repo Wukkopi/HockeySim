@@ -1,13 +1,13 @@
 namespace HockeySim.Game.Actions;
 
-public class DribbleAction : IAction
+public class DribbleAction : Action
 {
-    public int Cost => 2;
-    public bool IsCounterAction => false;
+    public override int Cost => 2;
+    public override bool CanBeCountered => true;
 
-    public string Description => "Dribbles puck forwards by one section";
+    public override string Description => "Dribbles puck forwards by one section";
 
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

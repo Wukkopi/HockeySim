@@ -31,14 +31,11 @@ public abstract class Player(string id, DeckManager deckManager) : IPlayer
     public bool PlayAction(IAction action, GameManager manager)
     {
         ConsumeEnergy(action.Cost);
-        return action.Play(manager);
-    }
-
-    public bool PlayCard(ICard card, GameManager manager)
-    {
-        ConsumeEnergy(card.Cost);
-        deckManager.Discard(card);
-        return card.Play(manager);
+        if (action is ICard)
+        {
+            deckManager.Discard((ICard)action);
+        }
+        return action.TryPlay(manager);
     }
 
     public bool DrawCards()

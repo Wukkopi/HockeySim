@@ -1,14 +1,14 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class FightCard : ICard
+public class FightCard : Action, ICard
 {
-    public int Cost => 0;
+    private const int power = 1;
+    
+    public override int Cost => 0;
+    public override bool CanBeCountered => false;
+    public override string Description => $"Players start to fight (-{power} energy for both teams)";
 
-    public bool IsCounterAction => false;
-
-    public string Description => "Players start to fight (-1 energy for both teams)";
-
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

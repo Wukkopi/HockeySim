@@ -1,14 +1,12 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class QuickPassCard : ICard
+public class QuickPassCard : Action, ICard
 {
-    public int Cost => 2;
-    
-    public bool IsCounterAction => false;
+    public override int Cost => 2;
+    public override bool CanBeCountered => false;
+    public override string Description => "Make a fast pass (prevents interception)";
 
-    public string Description => "Make a fast pass (prevents interception)";
-
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

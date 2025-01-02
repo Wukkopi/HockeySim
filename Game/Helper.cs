@@ -1,16 +1,18 @@
 using HockeySim.Game.Actions.Cards;
+using HockeySim.Game.Player;
 
 namespace HockeySim.Game;
 
-public static class Setup
+public static class Helper
 {
-public static void Shuffle<T>(this Stack<T> stack)
-{
-    var values = stack.ToArray();
-    stack.Clear();
-    foreach (var value in values.OrderBy(x => Random.Shared.Next()))
-        stack.Push(value);
-}
+    public static void Shuffle<T>(this Stack<T> stack)
+    {
+        var values = stack.ToArray();
+        stack.Clear();
+        foreach (var value in values.OrderBy(x => Random.Shared.Next()))
+            stack.Push(value);
+    }
+    
     private static List<ICard> CreateCards<T>(int amount) where T : ICard, new()
     {
         var result = new List<ICard>(amount);
@@ -39,5 +41,29 @@ public static void Shuffle<T>(this Stack<T> stack)
         result.AddRange(CreateCards<BlockCard>(3));
 
         return result;
+    }
+
+    public static bool DealEnergy(GameManager manager, int amount)
+    {
+        if (manager.DeckManager.CardsInDrawPile < amount * 2)
+            return false;
+            
+        DealEnergy(manager.DeckManager, manager.Blue, amount);
+        DealEnergy(manager.DeckManager, manager.Red, amount);
+        return true;
+    }
+
+    public static bool DealEnergy(DeckManager deck, IPlayer player, int amount)
+    {
+        if (deck.CardsInDrawPile < amount)
+            return false;
+
+        ICard card;
+        for(var i = 0; i < amount; i++)
+        {
+            deck.TryDrawCard(out card);
+            player.AssignAsEnergy(card);
+        }
+        return true;
     }
 }

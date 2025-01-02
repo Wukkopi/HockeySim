@@ -1,14 +1,13 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class WristShotCard : ICard
+public class WristShotCard : Action, ICard
 {
-    public int Cost => 3;
-    
-    public bool IsCounterAction => false;
+    private const int power = 1;
+    public override int Cost => 3;
+    public override bool CanBeCountered => true;
+    public override string Description => $"Make a wristshot (+{power} for goal making)";
 
-    public string Description => "Make a wristshot (+1 for goal making)";
-
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }

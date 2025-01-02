@@ -1,14 +1,12 @@
 namespace HockeySim.Game.Actions.Cards;
 
-public class PassInterceptCard : ICard
+public class PassInterceptCard : Action, ICard
 {
-    public int Cost => 2;
+    public override int Cost => 2;
+    public override bool CanBeCountered => false;
+    public override string Description => "Intercepts a regular pass";
 
-    public bool IsCounterAction => true;
-
-    public string Description => "Intercepts a regular pass";
-
-    public bool Play(GameManager gameManager)
+    public override bool TryPlay(GameManager gameManager)
     {
         throw new NotImplementedException();
     }
