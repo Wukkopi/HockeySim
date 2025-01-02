@@ -7,8 +7,6 @@ public class PassAction : IAction
 
     public string Description => "Passes the puck forwards by one area (+1 boost for goal making)";
 
-    public ActionType type => ActionType.Offensive;
-
     public bool Play(GameManager gameManager)
     {
         throw new NotImplementedException();

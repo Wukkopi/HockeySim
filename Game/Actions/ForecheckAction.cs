@@ -7,8 +7,6 @@ public class ForecheckAction : IAction
 
     public string Description => "Takes the possession of the puck";
 
-    public ActionType type => ActionType.Offensive;
-
     public bool Play(GameManager gameManager)
     {
         throw new NotImplementedException();
