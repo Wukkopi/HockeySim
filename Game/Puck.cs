@@ -24,4 +24,14 @@ public class Puck(IPlayer owner)
             _ => throw new Exception("Invalid position"),
         };
     }
+
+    public void MoveForward()
+    {
+        At = At switch
+        {
+            Position.Defense => Position.Middle,
+            Position.Middle => Position.Offense,
+            _ => At
+        };
+    }
 }

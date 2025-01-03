@@ -8,6 +8,7 @@ public class QuickPassCard : Action, ICard
 
     public override bool TryPlay(GameManager gameManager)
     {
-        throw new NotImplementedException();
+        gameManager.TurnState.ShotPower++;
+        return true;
     }
 }

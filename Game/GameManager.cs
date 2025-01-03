@@ -11,6 +11,7 @@ public class GameManager
     public DeckManager DeckManager { get; private set; }
     public ActionManager ActionManager { get; private set; }
     public Puck Puck { get; private set; }
+    public TurnState TurnState { get; private set; }
 
     public GameManager()
     {
@@ -21,8 +22,11 @@ public class GameManager
         Blue = new("blue", DeckManager);
         Puck = new(Red);
         InTurn = Red;
+        TurnState = new();
         PrepareGame();
     }
+
+    public void SwapTurn() => InTurn = GetOpponent();
 
     public IPlayer GetOpponent()
     {
@@ -34,16 +38,8 @@ public class GameManager
 
     public void PrepareGame()
     {
-        for (var i = 0; i < Settings.InitialEnergy; i++)
-        {
-            ICard card;
-
-            DeckManager.TryDrawCard(out card);
-            Red.AssignAsEnergy(card);
-
-            DeckManager.TryDrawCard(out card);
-            Blue.AssignAsEnergy(card);
-        }
+        Helper.DealEnergy(this, Settings.InitialEnergy);
+       
         Red.DrawCards();
         Blue.DrawCards();
     }

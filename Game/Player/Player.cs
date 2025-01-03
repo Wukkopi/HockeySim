@@ -8,8 +8,8 @@ public abstract class Player(string id, DeckManager deckManager) : IPlayer
     private readonly DeckManager deckManager = deckManager;
     public string ID { get; } = id;
     public int Goals { get; set; }
-    public List<ICard> Energy = new();
-    public List<ICard> Hand = new();
+    public List<ICard> Energy { get; } = new();
+    public List<ICard> Hand { get; }= new();
 
     public int EnergyBank => Energy.Count;
 
@@ -30,6 +30,8 @@ public abstract class Player(string id, DeckManager deckManager) : IPlayer
 
     public bool PlayAction(IAction action, GameManager manager)
     {
+        if (!action.CanAfford(this))
+            return false;
         ConsumeEnergy(action.Cost);
         if (action is ICard)
         {

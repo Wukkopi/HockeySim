@@ -4,7 +4,7 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
 {
     public override void PlayCounter(GameManager manager)
     {
-        throw new NotImplementedException();
+        
     }
 
     public override void PlayTurn(GameManager manager)
@@ -29,7 +29,7 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
         }
         Console.WriteLine($"[e]nd turn, {actions.EndTurn.Description}");
  
-        while(true)
+        while(manager.InTurn == this)
         {
             var input = Console.ReadLine();
             if (input == null)
@@ -37,16 +37,13 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
 
             var tokens = input.Split(' ');
 
-            if (tokens.Length > 2)
-                continue;
-
             var allowCounter = false;
 
-            if (tokens.Length == 2)
+            if (tokens.Length >= 2)
             {
                 // card actions
                 var index = int.Parse(tokens[1]) - 1;
-                if (index > 4) 
+                if (index > 4)
                     continue;
 
                 var card = Hand[index];
@@ -56,17 +53,21 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
                     AssignAsEnergy(card);
                 continue;
             }
-
-            // always available actions
-            allowCounter = tokens[0] switch
+            else
             {
-                "d" => PlayAction(actions.Dribble, manager),
-                "p" => PlayAction(actions.Pass, manager),
-                "f" => PlayAction(actions.Forecheck, manager),
-                "s" => PlayAction(actions.Shoot, manager),
-                "e" => PlayAction(actions.EndTurn, manager),
-                "n" => PlayAction(actions.Defend, manager),
-            };
+                // always available actions
+                allowCounter = tokens[0] switch
+                {
+                    "d" => PlayAction(actions.Dribble, manager),
+                    "p" => PlayAction(actions.Pass, manager),
+                    "f" => PlayAction(actions.Forecheck, manager),
+                    "s" => PlayAction(actions.Shoot, manager),
+                    "e" => PlayAction(actions.EndTurn, manager),
+                    "n" => PlayAction(actions.Defend, manager),
+                };
+            }
+            if (allowCounter)
+                manager.GetOpponent().PlayCounter(manager);
         }
     }
 }

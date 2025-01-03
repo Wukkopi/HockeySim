@@ -9,6 +9,10 @@ public class DribbleAction : Action
 
     public override bool TryPlay(GameManager gameManager)
     {
-        throw new NotImplementedException();
+        if (gameManager.Puck.At == Puck.Position.Offense)
+            return false;
+            
+        gameManager.Puck.MoveForward();
+        return true;
     }
 }

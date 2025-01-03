@@ -11,6 +11,8 @@ public class PassAction : Action
 
     public override bool TryPlay(GameManager gameManager)
     {
-        throw new NotImplementedException();
+        gameManager.TurnState.ShotPower += power;
+        gameManager.Puck.MoveForward();
+        return true;
     }
 }

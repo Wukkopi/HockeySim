@@ -12,6 +12,10 @@ public class DefendAction : Action
 
     public override bool TryPlay(GameManager gameManager)
     {
-        throw new NotImplementedException();
+        if (gameManager.TurnState.ShotPower == 0)
+            return false;
+        
+        gameManager.TurnState.ShotPower -= power;
+        return true;
     }
 }

@@ -8,6 +8,7 @@ public class PassInterceptCard : Action, ICard
 
     public override bool TryPlay(GameManager gameManager)
     {
-        throw new NotImplementedException();
+        gameManager.Puck.SwapOwner(gameManager.GetOpponent());
+        return true;
     }
 }
