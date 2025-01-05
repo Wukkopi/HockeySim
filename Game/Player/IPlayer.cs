@@ -1,4 +1,3 @@
-using System.IO.Compression;
 using HockeySim.Game.Actions.Cards;
 
 namespace HockeySim.Game.Player;
@@ -15,4 +14,5 @@ public interface IPlayer
     public void AssignAsEnergy(ICard card);
     public void ConsumeEnergy(int amount);
     public bool DrawCards();
+    public bool TryGetCardInHand<T>(out ICard? card) where T : ICard;
 }

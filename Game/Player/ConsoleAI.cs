@@ -8,11 +8,11 @@ public class ConsoleAI : Player
 
     public override void PlayCounter(GameManager manager)
     {
-        throw new NotImplementedException();
+        
     }
 
     public override void PlayTurn(GameManager manager)
     {
-        PlayAction(manager.ActionManager.EndTurn, manager);
+        TryPlayAction(manager.ActionManager.EndTurn, manager, out _);
     }
 }

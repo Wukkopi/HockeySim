@@ -10,6 +10,9 @@ public class ShieldCard : Action, ICard
 
     public override bool TryPlay(GameManager gameManager)
     {
+        if (gameManager.TurnState.Shot == false)
+            return false;
+            
         gameManager.TurnState.ShotPower -= power;
         return true;
     }

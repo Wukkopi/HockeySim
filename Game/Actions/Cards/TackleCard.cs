@@ -8,9 +8,11 @@ public class TackleCard : Action, ICard
 
     public override bool TryPlay(GameManager gameManager)
     {
-        if (gameManager.Puck.Owner == gameManager.InTurn)
+        if (gameManager.TurnState.Dribbled == false)
             return false;
-            
+        if (gameManager.Puck.Owner == gameManager.GetOpponent())
+            return false;
+
         gameManager.Puck.SwapOwner(gameManager.GetOpponent());
         return true;
     }

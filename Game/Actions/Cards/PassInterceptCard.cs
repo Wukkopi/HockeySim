@@ -8,6 +8,11 @@ public class PassInterceptCard : Action, ICard
 
     public override bool TryPlay(GameManager gameManager)
     {
+        if (gameManager.TurnState.Passed == false)
+            return false;
+        if (gameManager.Puck.Owner == gameManager.GetOpponent())
+            return false;
+
         gameManager.Puck.SwapOwner(gameManager.GetOpponent());
         return true;
     }

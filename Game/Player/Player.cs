@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using HockeySim.Game.Actions;
 using HockeySim.Game.Actions.Cards;
 
@@ -28,16 +29,21 @@ public abstract class Player(string id, DeckManager deckManager) : IPlayer
         }
     }
 
-    public bool PlayAction(IAction action, GameManager manager)
+    public bool TryPlayAction(IAction action, GameManager manager, out bool canBeCountered)
     {
+        canBeCountered = action.CanBeCountered;
         if (!action.CanAfford(this))
             return false;
+
+        if (!action.TryPlay(manager))
+            return false;
+
         ConsumeEnergy(action.Cost);
         if (action is ICard)
         {
             deckManager.Discard((ICard)action);
         }
-        return action.TryPlay(manager);
+        return true;
     }
 
     public bool DrawCards()
@@ -51,6 +57,20 @@ public abstract class Player(string id, DeckManager deckManager) : IPlayer
             Hand.Add(card);
         }
         return true;
+    }
+
+    public bool TryGetCardInHand<T>(out ICard? card) where T : ICard
+    {
+        card = null;
+        foreach (var c in Hand)
+        {
+            if (c.GetType() == typeof(T))
+            {
+                card = c;
+                return true;
+            }
+        }
+        return false;
     }
 
     public abstract void PlayTurn(GameManager manager);

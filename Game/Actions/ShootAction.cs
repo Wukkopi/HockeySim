@@ -9,6 +9,7 @@ public class ShootAction : Action
     public override bool TryPlay(GameManager gameManager)
     {
         gameManager.TurnState.ShotPower += power;
+        gameManager.TurnState.Shot = true;
         return true;
     }
 }
