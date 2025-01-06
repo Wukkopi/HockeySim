@@ -29,9 +29,8 @@ public abstract class Player(string id, DeckManager deckManager) : IPlayer
         }
     }
 
-    public bool TryPlayAction(IAction action, GameManager manager, out bool canBeCountered)
+    public bool TryPlayAction(IAction action, GameManager manager)
     {
-        canBeCountered = action.CanBeCountered;
         if (!action.CanAfford(this))
             return false;
 
@@ -43,6 +42,10 @@ public abstract class Player(string id, DeckManager deckManager) : IPlayer
         {
             deckManager.Discard((ICard)action);
         }
+
+        if (action.CanBeCountered)
+            manager.GetOpponent().PlayCounter(manager);
+
         return true;
     }
 

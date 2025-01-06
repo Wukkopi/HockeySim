@@ -13,6 +13,6 @@ public class ConsoleAI : Player
 
     public override void PlayTurn(GameManager manager)
     {
-        TryPlayAction(manager.ActionManager.EndTurn, manager, out _);
+        TryPlayAction(manager.ActionManager.EndTurn, manager);
     }
 }

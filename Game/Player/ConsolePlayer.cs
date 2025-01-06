@@ -35,15 +35,15 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
                 continue;
 
             if (input == "i" && interceptCard != null)
-                TryPlayAction(interceptCard, manager, out _);
+                TryPlayAction(interceptCard, manager);
             if (input == "t" && tackleCard != null)
-                TryPlayAction(tackleCard, manager, out _);
+                TryPlayAction(tackleCard, manager);
             if (input == "b" && blockCard != null)
-                TryPlayAction(blockCard, manager, out _);
+                TryPlayAction(blockCard, manager);
             if (input == "s" && shieldCard != null)
-                TryPlayAction(shieldCard, manager, out _);
+                TryPlayAction(shieldCard, manager);
             if (input == "d")
-                TryPlayAction(actions.Defend, manager, out _);
+                TryPlayAction(actions.Defend, manager);
             if (input == "e")
                 break;
         }
@@ -53,8 +53,6 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
     {
         var actions = manager.ActionManager;
 
-        var allowCounter = false;
-        
         while(manager.InTurn == this)
         {
             Console.WriteLine("'play <n>' to play card n, discard <n> to convert card into energy");
@@ -75,7 +73,6 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
             Console.WriteLine($"[e]nd action");
             Console.WriteLine();
 
-            var counterEnabled = false;
             while (true)
             {
                 Console.WriteLine($"Energy: {EnergyBank}");
@@ -96,7 +93,7 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
 
                     var card = Hand[index];
                     if (tokens[0] == "play")
-                        successful = TryPlayAction(card, manager, out allowCounter);
+                        successful = TryPlayAction(card, manager);
                     else if (tokens[0] == "discard")
                         AssignAsEnergy(card);
                 }
@@ -108,22 +105,17 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
                     // always available actions
                     successful = tokens[0] switch
                     {
-                        "d" => TryPlayAction(actions.Dribble, manager, out allowCounter),
-                        "p" => TryPlayAction(actions.Pass, manager, out allowCounter),
-                        "f" => TryPlayAction(actions.Forecheck, manager, out allowCounter),
-                        "s" => TryPlayAction(actions.Shoot, manager, out allowCounter),
-                        "n" => TryPlayAction(actions.Defend, manager, out allowCounter),
+                        "d" => TryPlayAction(actions.Dribble, manager),
+                        "p" => TryPlayAction(actions.Pass, manager),
+                        "f" => TryPlayAction(actions.Forecheck, manager),
+                        "s" => TryPlayAction(actions.Shoot, manager),
+                        "n" => TryPlayAction(actions.Defend, manager),
                         _ => false,
                     };
                 }
                 if (!successful)
                     continue;
-                counterEnabled |= allowCounter;
             }
-
-            if (counterEnabled)
-                manager.GetOpponent().PlayCounter(manager);
-            
             Console.WriteLine($"[e]nd turn, {actions.EndTurn.Description}");
             Console.WriteLine("anything else to continue");
 
@@ -132,6 +124,6 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
                 break;
         }
         
-        TryPlayAction(actions.EndTurn, manager, out _);
+        TryPlayAction(actions.EndTurn, manager);
     }
 }

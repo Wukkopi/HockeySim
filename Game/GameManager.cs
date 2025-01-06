@@ -13,7 +13,7 @@ public class GameManager
     public Puck Puck { get; private set; }
     public TurnState TurnState { get; private set; }
 
-    public GameManager()
+    public GameManager() 
     {
         ActionManager = new();
         DeckManager = new();
@@ -42,6 +42,16 @@ public class GameManager
        
         Red.DrawCards();
         Blue.DrawCards();
+    }
+
+    public void CheckGoal()
+    {
+        if (TurnState.Shot && TurnState.ShotPower > 0)
+        {
+            InTurn.Goals++;
+            Puck.At = Puck.Position.Middle;
+            Puck.Owner = GetOpponent();
+        }
     }
 
     public void PrintState()
