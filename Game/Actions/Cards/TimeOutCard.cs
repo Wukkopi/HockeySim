@@ -11,6 +11,7 @@ public class TimeOutCard : Action, ICard
     {
         if (gameManager.DeckManager.CardsInDrawPile < amount)
             return false;
+            
         for (var i = 0; i < amount; i++)
         {
             gameManager.DeckManager.TryDrawCard(out var card);

@@ -41,10 +41,13 @@ public abstract class Player(string id, DeckManager deckManager) : IPlayer
         if (action is ICard)
         {
             deckManager.Discard((ICard)action);
+            Hand.Remove((ICard)action);
         }
 
         if (action.CanBeCountered)
             manager.GetOpponent().PlayCounter(manager);
+
+        manager.CheckGoal();
 
         return true;
     }

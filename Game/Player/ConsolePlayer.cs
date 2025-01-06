@@ -49,79 +49,84 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
         }
     }
 
+    public void PrintTurnOptions(GameManager manager)
+    {
+        var actions = manager.ActionManager;
+
+        manager.PrintState();
+
+        Console.WriteLine("'play <n>' to play card n, discard <n> to convert card into energy");
+        for (var i = 0; i < Hand.Count; i++)
+        {
+            Console.WriteLine($"[{i + 1}] Cost: {Hand[i].Cost} {Hand[i].GetType().Name}, {Hand[i].Description}");
+        }
+        if (manager.Puck.Owner == this)
+        {
+            Console.WriteLine($"[d]ribble Cost: {actions.Dribble.Cost}, {actions.Dribble.Description}");
+            Console.WriteLine($"[p]ass Cost: {actions.Pass.Cost}, {actions.Pass.Description}");
+            Console.WriteLine($"[s]hoot Cost: {actions.Shoot.Cost}, {actions.Shoot.Description}");
+        }
+        else
+        {
+            Console.WriteLine($"[f]orecheck Cost: {actions.Forecheck.Cost}, {actions.Forecheck.Description}");
+        }
+        Console.WriteLine($"[e]nd action");
+        Console.WriteLine($"[q]uit");
+        Console.WriteLine();
+        
+        Console.WriteLine($"Energy: {EnergyBank}");
+    }
+
     public override void PlayTurn(GameManager manager)
     {
         var actions = manager.ActionManager;
 
         while(manager.InTurn == this)
         {
-            Console.WriteLine("'play <n>' to play card n, discard <n> to convert card into energy");
-            for (var i = 0; i < Hand.Count; i++)
+            PrintTurnOptions(manager);           
+
+            var input = Console.ReadLine();
+            if (input == null)
+                continue;
+
+            var tokens = input.Split(' ');
+
+            var successful = false;
+
+            if (tokens.Length >= 2)
             {
-                Console.WriteLine($"[{i + 1}] Cost: {Hand[i].Cost} {Hand[i].GetType().Name}, {Hand[i].Description}");
-            }
-            if (manager.Puck.Owner == this)
-            {
-                Console.WriteLine($"[d]ribble Cost: {actions.Dribble.Cost}, {actions.Dribble.Description}");
-                Console.WriteLine($"[p]ass Cost: {actions.Pass.Cost}, {actions.Pass.Description}");
-                Console.WriteLine($"[s]hoot Cost: {actions.Shoot.Cost}, {actions.Shoot.Description}");
+                // card actions
+                var index = int.Parse(tokens[1]) - 1;
+                if (index > 4)
+                    continue;
+
+                var card = Hand[index];
+                if (tokens[0] == "play")
+                    successful = TryPlayAction(card, manager);
+                else if (tokens[0] == "discard")
+                    AssignAsEnergy(card);
             }
             else
             {
-                Console.WriteLine($"[f]orecheck Cost: {actions.Forecheck.Cost}, {actions.Forecheck.Description}");
-            }
-            Console.WriteLine($"[e]nd action");
-            Console.WriteLine();
-
-            while (true)
-            {
-                Console.WriteLine($"Energy: {EnergyBank}");
-                var input = Console.ReadLine();
-                if (input == null)
-                    continue;
-
-                var tokens = input.Split(' ');
-
-                var successful = false;
-
-                if (tokens.Length >= 2)
+                if (tokens[0] == "e")
+                    break;
+                if (tokens[0] == "q")
+                    Environment.Exit(0);
+                    
+                // always available actions
+                successful = tokens[0] switch
                 {
-                    // card actions
-                    var index = int.Parse(tokens[1]) - 1;
-                    if (index > 4)
-                        continue;
-
-                    var card = Hand[index];
-                    if (tokens[0] == "play")
-                        successful = TryPlayAction(card, manager);
-                    else if (tokens[0] == "discard")
-                        AssignAsEnergy(card);
-                }
-                else
-                {
-                    if (tokens[0] == "e")
-                        break;
-
-                    // always available actions
-                    successful = tokens[0] switch
-                    {
-                        "d" => TryPlayAction(actions.Dribble, manager),
-                        "p" => TryPlayAction(actions.Pass, manager),
-                        "f" => TryPlayAction(actions.Forecheck, manager),
-                        "s" => TryPlayAction(actions.Shoot, manager),
-                        "n" => TryPlayAction(actions.Defend, manager),
-                        _ => false,
-                    };
-                }
-                if (!successful)
-                    continue;
+                    "d" => TryPlayAction(actions.Dribble, manager),
+                    "p" => TryPlayAction(actions.Pass, manager),
+                    "f" => TryPlayAction(actions.Forecheck, manager),
+                    "s" => TryPlayAction(actions.Shoot, manager),
+                    "n" => TryPlayAction(actions.Defend, manager),
+                    _ => false,
+                };
             }
-            Console.WriteLine($"[e]nd turn, {actions.EndTurn.Description}");
-            Console.WriteLine("anything else to continue");
+            if (!successful)
+                continue;
 
-            var input2 = Console.ReadLine();
-            if (input2 == "e")
-                break;
         }
         
         TryPlayAction(actions.EndTurn, manager);

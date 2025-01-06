@@ -51,13 +51,15 @@ public class GameManager
             InTurn.Goals++;
             Puck.At = Puck.Position.Middle;
             Puck.Owner = GetOpponent();
+            TurnState.Reset();
         }
     }
 
     public void PrintState()
     {
         Console.WriteLine("== Game state ==");
-        Console.WriteLine($"Turn: {InTurn.ID}");
+        Console.WriteLine($"Turn: {InTurn.ID}, Deck left: {DeckManager.CardsInDrawPile}");
+        Console.WriteLine($"Scores: (red){Red.Goals}, (blue){Blue.Goals}");
         Console.WriteLine($"Puck: ({Puck.Owner.ID}) at {Puck.At}");
         Console.WriteLine($"Red energy: {Red.EnergyBank}, Blue energy: {Blue.EnergyBank}");
         Console.WriteLine();

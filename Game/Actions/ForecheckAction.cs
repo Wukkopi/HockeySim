@@ -12,7 +12,7 @@ public class ForecheckAction : Action
         if (gameManager.Puck.Owner == gameManager.InTurn)
             return false;
             
-        gameManager.Puck.SwapOwner(gameManager.GetOpponent());
+        gameManager.Puck.SwapOwner(gameManager.InTurn);
         return true;
     }
 }
