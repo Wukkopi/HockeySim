@@ -93,7 +93,7 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
 
             var successful = false;
 
-            if (tokens.Length >= 2)
+            if (tokens.Length >= 2 && Hand.Count > 0)
             {
                 // card actions
                 var index = int.Parse(tokens[1]) - 1;
@@ -112,7 +112,7 @@ public class ConsolePlayer(string id, DeckManager deckManager) : Player(id, deck
                     break;
                 if (tokens[0] == "q")
                     Environment.Exit(0);
-                    
+
                 // always available actions
                 successful = tokens[0] switch
                 {

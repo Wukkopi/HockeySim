@@ -1,3 +1,5 @@
+using System.Drawing;
+using System.Net.NetworkInformation;
 using HockeySim.Game.Actions.Cards;
 using HockeySim.Game.Player;
 
@@ -5,6 +7,17 @@ namespace HockeySim.Game;
 
 public static class Helper
 {
+    public static void Color(this string text, Color foreground) => text.Color(foreground, System.Drawing.Color.Empty);
+    public static void Color(this string text, Color foreground, Color background)
+    {
+        // fg = 38;2;r;g;b
+        // bg = 48;2;r;g;b
+        var prefix = $"\x1b[38;2;{foreground.R};{foreground.G};{foreground.B}";
+        if (background != System.Drawing.Color.Empty)
+            prefix += $";48;2;{background.R};{background.G};{background.B}";
+        text = $"{prefix}m{text}\x1b[0m";
+    }
+
     public static void Shuffle<T>(this Stack<T> stack)
     {
         var values = stack.ToArray();
